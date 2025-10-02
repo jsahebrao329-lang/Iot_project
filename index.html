@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeatherPeek Interactive</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <main class="app">
+
+    <nav class="navbar">
+      <div class="nav-left">
+        <a href="#" class="logo">OpenWeather</a>
+        <div class="nav-search-bar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Weather in your city">
+        </div>
+      </div>
+      <div class="nav-center">
+        <ul>
+          <li><a href="guide.html">Guide</a></li>
+          <li><a href="dashboard.html">Dashboards</a></li>
+          <li><a href="air-quality.html">Air-Quality</a></li>
+          <li><a href="map.html">Map</a></li>
+          <li><a href="initiative.html">Our Initiatives</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section class="hero" id="heroSection">
+      <div class="hero-content">
+        <h1>OpenWeather</h1>
+        <p>Weather forecasts, nowcasts and history in a fast and elegant way</p>
+      </div>
+    </section>
+
+    <section class="main-content">
+      <div class="left">
+        <div class="controls">
+          <input id="cityInput" type="text" placeholder="Enter city (e.g., Mumbai)">
+          <button id="searchBtn">Search</button>
+          <button id="toggleUnit">°C/°F</button>
+        </div>
+        <div id="weatherContainer">
+          <h2 id="city" class="city-title"></h2>
+          <div id="weather" class="forecast-grid"></div>
+        </div>
+      </div>
+
+      <aside class="right">
+        <div class="card about">
+          <h3>Tips</h3>
+          <ul>
+            <li>Press <kbd>Enter</kbd> to search quickly.</li>
+            <li>Switch °C/°F using the button above.</li>
+            <li>Search history available for last 3 cities.</li>
+          </ul>
+        </div>
+        <div class="card credits">
+          <h3>About</h3>
+          <p>Powered by OpenWeatherMap · Styled with ❤ · Fully Interactive</p>
+        </div>
+      </aside>
+    </section>
+
+   
+
+ 
+      <footer class="footer">
+      <div class="footer-container">
+      
+        <div class="footer-col">
+          <h4>About WeatherPeek</h4>
+          <p>Your go-to platform for real-time weather, air-quality monitoring, and interactive maps.</p>
+        </div>
+
+      
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="guide.html">Guide</a></li>
+            <li><a href="#">Dashboards</a></li>
+            <li><a href="air-quality.html">Air-Quality</a></li>
+            <li><a href="map.html">Map</a></li>
+            <li><a href="initiative.html">Our Initiatives</a></li>
+          </ul>
+        </div>
+
+     
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <p>Email: support@weatherpeek.com</p>
+          <p>Phone: +91-98765-43210</p>
+        </div>
+
+     
+        <div class="footer-col social">
+          <h4>Follow Us</h4>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <small>© 2025 WeatherPeek · Beautiful forecasts · Made with ❤</small>
+      </div>
+    </footer>
+     </main>
+
+
+  <script src="script.js"></script>
+</body>
+</html>

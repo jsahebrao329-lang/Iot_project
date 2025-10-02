@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>India Weather Map</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f9f9f9;
+      height: 100%;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+      color: #fff;
+      padding: 10px 20px;
+    }
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    .container {
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #map {
+      width: 100%;
+      max-width: 900px;
+      height: 500px;
+      margin: 0 auto;
+      border: 2px solid #333;
+      border-radius: 10px;
+    }
+    .weather-info {
+      text-align: center;
+      margin-top: 20px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    select, button {
+      padding: 8px 12px;
+      margin: 5px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    <span>India Weather Map</span>
+  </nav>
+
+  <div class="container">
+    <h1>Select a City</h1>
+    <div style="text-align:center;">
+      <select id="citySelect">
+        <option value="">--Select City--</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Kolkata">Kolkata</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Pune">Pune</option>
+        <option value="Jaipur">Jaipur</option>
+      </select>
+      <button id="getWeatherBtn">Get Weather</button>
+    </div>
+
+    <div id="map"></div>
+    <div id="weatherInfo" class="weather-info"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <script>
+    const apiKey = '718963b7af0803fcac4de0ea84c38141';  
+    const citySelect = document.getElementById('citySelect');
+    const getWeatherBtn = document.getElementById('getWeatherBtn');
+    const weatherInfo = document.getElementById('weatherInfo');
+
+    const map = L.map('map').setView([22.5937, 78.9629], 5);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+   
+    const cityCoords = {
+      Mumbai: [19.0760, 72.8777],
+      Delhi: [28.6139, 77.2090],
+      Bangalore: [12.9716, 77.5946],
+      Chennai: [13.0827, 80.2707],
+      Kolkata: [22.5726, 88.3639],
+      Hyderabad: [17.3850, 78.4867],
+      Pune: [18.5204, 73.8567],
+      Jaipur: [26.9124, 75.7873]
+    };
+
+    let marker;
+
+    getWeatherBtn.addEventListener('click', () => {
+      const city = citySelect.value;
+      if(!city) return alert('Please select a city');
+
+      const coords = cityCoords[city];
+      map.setView(coords, 10);
+
+      if(marker) map.removeLayer(marker);
+
+      marker = L.marker(coords).addTo(map).bindPopup(`${city}`).openPopup();
+
+    
+      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`)
+        .then(res => res.json())
+        .then(data => {
+          const temp = data.main.temp;
+          const desc = data.weather[0].description;
+          const humidity = data.main.humidity;
+          const wind = data.wind.speed;
+          weatherInfo.innerHTML = `<strong>${city}</strong><br>Temperature: ${temp}°C<br>Description: ${desc}<br>Humidity: ${humidity}%<br>Wind Speed: ${wind} m/s`;
+        })
+        .catch(err => {
+          weatherInfo.innerHTML = "Failed to fetch weather data.";
+          console.error(err);
+        });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive AQI - WeatherPeek</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(120deg, #e0f7fa, #f9fbe7);
+      min-height: 100vh;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+      color: #fff;
+      padding: 12px 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      margin-right: 15px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      text-align: center;
+      padding: 0 20px;
+    }
+    h1 {
+      margin-bottom: 25px;
+      color: #333;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+    select, button {
+      padding: 10px 14px;
+      margin: 10px 5px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    select {
+      width: 220px;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    .aqi-card {
+      display: none;
+      margin-top: 25px;
+      padding: 25px;
+      border-radius: 15px;
+      color: #fff;
+      background: linear-gradient(45deg, #4caf50, #8bc34a);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      transition: background 0.3s;
+    }
+    .aqi-card.good { background: linear-gradient(135deg, #009966, #00cc66); }
+    .aqi-card.moderate { background: linear-gradient(135deg, #ffde33, #ffcc00); color:#000; }
+    .aqi-card.unhealthy { background: linear-gradient(135deg, #ff9933, #ff6600); }
+    .aqi-card.very-unhealthy { background: linear-gradient(135deg, #cc0033, #ff3366); }
+    .aqi-card.hazardous { background: linear-gradient(135deg, #660099, #9900cc); }
+    .aqi-card h2 { margin-bottom: 15px; font-size: 24px; }
+    .aqi-card p { margin: 8px 0; font-size: 18px; }
+    .aqi-components {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+    }
+    .component {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 14px;
+      color: #fff;
+    }
+    .component i {
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+    .aqi-bar {
+      height: 20px;
+      border-radius: 10px;
+      margin-top: 15px;
+      background: rgba(255,255,255,0.3);
+      overflow: hidden;
+    }
+    .aqi-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 10px;
+      transition: width 1s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    <span>Interactive Air Quality Index</span>
+  </nav>
+
+  <div class="container">
+    <h1>Check AQI for Major Indian Cities</h1>
+    <select id="citySelect">
+      <option value="">--Select City--</option>
+      <option value="Mumbai">Mumbai</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Bangalore">Bangalore</option>
+      <option value="Chennai">Chennai</option>
+      <option value="Kolkata">Kolkata</option>
+      <option value="Hyderabad">Hyderabad</option>
+      <option value="Pune">Pune</option>
+      <option value="Jaipur">Jaipur</option>
+    </select>
+    <button id="checkAQI">Check AQI</button>
+
+    <div id="aqiCard" class="aqi-card">
+      <h2 id="cityName"></h2>
+      <p id="aqiValue"></p>
+      <div class="aqi-bar"><div id="aqiBarFill" class="aqi-bar-fill"></div></div>
+      <div class="aqi-components">
+        <div class="component"><i class="fa-solid fa-cloud"></i> <span id="pm25"></span> PM2.5</div>
+        <div class="component"><i class="fa-solid fa-smog"></i> <span id="pm10"></span> PM10</div>
+        <div class="component"><i class="fa-solid fa-industry"></i> <span id="no2"></span> NO₂</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const apiKey = '718963b7af0803fcac4de0ea84c38141'; 
+    const citySelect = document.getElementById('citySelect');
+    const checkAQI = document.getElementById('checkAQI');
+    const aqiCard = document.getElementById('aqiCard');
+    const cityNameEl = document.getElementById('cityName');
+    const aqiValueEl = document.getElementById('aqiValue');
+    const pm25El = document.getElementById('pm25');
+    const pm10El = document.getElementById('pm10');
+    const no2El = document.getElementById('no2');
+    const aqiBarFill = document.getElementById('aqiBarFill');
+
+    const cityCoords = {
+      Mumbai: [19.0760, 72.8777],
+      Delhi: [28.6139, 77.2090],
+      Bangalore: [12.9716, 77.5946],
+      Chennai: [13.0827, 80.2707],
+      Kolkata: [22.5726, 88.3639],
+      Hyderabad: [17.3850, 78.4867],
+      Pune: [18.5204, 73.8567],
+      Jaipur: [26.9124, 75.7873]
+    };
+
+    function getAQILevel(aqi) {
+      if(aqi === 1) return { text: "Good", class: "good", width: 20 };
+      else if(aqi === 2) return { text: "Moderate", class: "moderate", width: 40 };
+      else if(aqi === 3) return { text: "Unhealthy for Sensitive Groups", class: "unhealthy", width: 60 };
+      else if(aqi === 4) return { text: "Very Unhealthy", class: "very-unhealthy", width: 80 };
+      else if(aqi === 5) return { text: "Hazardous", class: "hazardous", width: 100 };
+      else return { text: "Unknown", class: "", width: 0 };
+    }
+
+    checkAQI.addEventListener('click', () => {
+      const city = citySelect.value;
+      if(!city) return alert("Please select a city");
+
+      const coords = cityCoords[city];
+      fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${coords[0]}&lon=${coords[1]}&appid=${apiKey}`)
+        .then(res => res.json())
+        .then(data => {
+          const aqi = data.list[0].main.aqi;
+          const aqiLevel = getAQILevel(aqi);
+
+          aqiCard.style.display = 'block';
+          aqiCard.className = `aqi-card ${aqiLevel.class}`;
+          cityNameEl.textContent = city;
+          aqiValueEl.textContent = `AQI: ${aqi} (${aqiLevel.text})`;
+          pm25El.textContent = data.list[0].components.pm2_5;
+          pm10El.textContent = data.list[0].components.pm10;
+          no2El.textContent = data.list[0].components.no2;
+
+          aqiBarFill.style.width = '0%';
+          setTimeout(() => {
+            aqiBarFill.style.width = `${aqiLevel.width}%`;
+          }, 100);
+        })
+        .catch(err => {
+          alert("Failed to fetch AQI data");
+          console.error(err);
+        });
+    });
+  </script>
+</body>
+</html>

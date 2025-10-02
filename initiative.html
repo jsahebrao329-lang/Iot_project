@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Initiatives - WeatherPeek</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f7fb;
+      color: #333;
+    }
+    a { text-decoration: none; }
+
+   
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 40px;
+      background: #1e90ff;
+      color: #fff;
+    }
+    .logo { font-size: 24px; font-weight: bold; }
+    .nav-center ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
+    .nav-center ul li a { color: #fff; font-weight: 500; }
+    .nav-center ul li a:hover { color: #ffd700; }
+
+  
+    .page-header {
+      text-align: center;
+      padding: 20px 20px 10px;
+      background: linear-gradient(135deg, #4dabf7, #1e90ff);
+      color: #fff;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .page-header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    .page-header p { font-size: 1.1rem; opacity: 0.9; }
+
+  
+    .back-btn {
+      display: inline-block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background: #1e90ff;
+      color: #fff;
+      border-radius: 14px;
+      font-weight: 600;
+      text-align: center;
+      transition: background 0.3s;
+    }
+    .back-btn:hover { background: #0c6bbf; }
+
+    .initiatives {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+    .initiative-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+    }
+    .initiative-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    .initiative-card i {
+      font-size: 50px;
+      margin-bottom: 15px;
+      color: #1e90ff;
+      transition: transform 0.3s, color 0.3s;
+    }
+    .initiative-card:hover i {
+      transform: rotate(15deg) scale(1.2);
+      color: #4dabf7;
+    }
+    .initiative-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .initiative-card p {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background: #f0f0f0;
+      font-size: 14px;
+      color: #555;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+
+  <nav class="navbar">
+    <div class="logo">WeatherPeek</div>
+    <div class="nav-center">
+     
+    </div>
+  </nav>
+
+
+  <section class="page-header">
+    <h1>Our Initiatives</h1>
+    <p>Projects and efforts to make weather & environmental awareness accessible to all.</p>
+  </section>
+
+
+  <div style="text-align:center;">
+    <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+  </div>
+
+
+  <section class="initiatives">
+    <div class="initiative-card">
+      <i class="fa-solid fa-cloud-sun-rain"></i>
+      <h3>Real-time Weather Monitoring</h3>
+      <p>Track weather and air quality across cities with live updates and alerts.</p>
+    </div>
+    <div class="initiative-card">
+      <i class="fa-solid fa-leaf"></i>
+      <h3>Environmental Awareness</h3>
+      <p>Learn tips for energy conservation, pollution reduction, and climate-friendly practices.</p>
+    </div>
+    <div class="initiative-card">
+      <i class="fa-solid fa-users"></i>
+      <h3>Community Engagement</h3>
+      <p>Contribute local weather observations, interact with guides, and participate in awareness campaigns.</p>
+    </div>
+    <div class="initiative-card">
+      <i class="fa-solid fa-robot"></i>
+      <h3>Smart Technology</h3>
+      <p>Leverage AI-powered forecasts and IoT sensors to improve safety and planning.</p>
+    </div>
+    <div class="initiative-card">
+      <i class="fa-solid fa-seedling"></i>
+      <h3>Sustainability Projects</h3>
+      <p>Support green initiatives like air quality improvement and energy-efficient practices.</p>
+    </div>
+    <div class="initiative-card">
+      <i class="fa-solid fa-water"></i>
+      <h3>Rainwater Harvesting</h3>
+      <p>Promote water conservation with smart rainwater harvesting techniques.</p>
+    </div>
+    <div class="initiative-card">
+      <i class="fa-solid fa-solar-panel"></i>
+      <h3>Renewable Energy Awareness</h3>
+      <p>Encourage solar and wind energy adoption in communities.</p>
+    </div>
+    <div class="initiative-card">
+      <i class="fa-solid fa-tree"></i>
+      <h3>Urban Greening</h3>
+      <p>Plant trees and green spaces to improve urban air quality and reduce heat.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    © 2025 WeatherPeek · Empowering Climate Awareness
+  </footer>
+
+</body>
+</html>
